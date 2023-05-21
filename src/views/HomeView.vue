@@ -5,21 +5,26 @@
       <button class="btn btn-primary" type="button" @click="search">Найти</button>
     </div>
   </div>
-  <p class="h3">Произношения</p>
-  <template v-for="video in videos">
-    <div>
-      <audio controls>
-        <source :src="get_host + video.word" type="audio/mp3">
-      </audio>
-    </div>
-  </template>
-  <p class="h3">Примеры</p>
-  <template v-for="video in videos">
-    <div>
-      <video controls>
-        <source :src="get_host + video.sentence" type="video/mp4">
-      </video>
-    </div>
+  <div v-if="loading" class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <template v-if="loaded">
+    <p class="h3">Произношения</p>
+    <template v-for="video in videos">
+      <div>
+        <audio controls>
+          <source :src="get_host + video.word" type="audio/mp3">
+        </audio>
+      </div>
+    </template>
+    <p class="h3">Примеры</p>
+    <template v-for="video in videos">
+      <div>
+        <video controls>
+          <source :src="get_host + video.sentence" type="video/mp4">
+        </video>
+      </div>
+    </template>
   </template>
 </template>
 
@@ -34,11 +39,17 @@ export default{
     return {
       videos : [],
       word : '',
+      loading : false,
+      loaded : false,
     }
   },
   methods : {
     async search(){
+      this.loading = true
+      this.loaded = false
       const res = await get_videos_by_word(this.word)
+      this.loading = false
+      this.loaded = true
       this.videos = res.data
     }
   },
@@ -46,9 +57,6 @@ export default{
     get_host(){
       return config.host
     }
-  },
-  beforeMount() {
-    console.log(config.host)
   }
 }
 
