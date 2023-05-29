@@ -13,8 +13,9 @@
     <div class="col-5"></div>
   </div>
   <template v-if="loaded">
+    <hr/>
     <template v-if="videos.length">
-      <p class="h3">Произношения</p>
+      <p class="h3 my-3">Произношения</p>
       <template v-for="video in videos">
         <div>
           <audio controls>
@@ -22,19 +23,21 @@
           </audio>
         </div>
       </template>
-      <p class="h3">Примеры</p>
+      <hr/>
+      <p class="h3 my-3">Примеры</p>
       <template v-for="video in videos">
-        <div>
+        <div class="my-2">
           <video controls style="max-width: 50%;">
             <source :src="get_host + video.sentence" type="video/mp4">
           </video>
         </div>
       </template>
+      <hr/>
     </template>
     <div v-else class="alert alert-secondary" role="alert">
       К сожалению, по Вашему запросу ничего не найдено.
     </div>
-    <p class="h3">Может быть интересно:</p>
+    <p v-if="other.length" class="h3 my-3">Может быть интересно:</p>
     <div class="list-group">
       <template v-for="word in other">
         <a href="javascript:" type="button" class="list-group-item list-group-item-action" @click="new_word(word)">{{word}}</a>
@@ -42,7 +45,6 @@
     </div>
   </template>
 </template>
-
 <script>
 
 import get_videos_by_word from "../api/api"
