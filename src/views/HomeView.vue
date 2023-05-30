@@ -1,5 +1,9 @@
 <template>
   <div class="input-group my-3">
+    <select class="form-select" v-model="accent">
+      <option selected>British</option>
+      <option>American</option>
+    </select>
     <input type="text" class="form-control" placeholder="Введите слово" v-model="word">
     <div class="input-group-append">
       <button class="btn btn-primary" type="button" @click="search">Найти</button>
@@ -56,6 +60,7 @@ export default{
     return {
       videos : [],
       word : '',
+      accent : '',
       loading : false,
       loaded : false,
     }
@@ -64,7 +69,7 @@ export default{
     async search(){
       this.loading = true
       this.loaded = false
-      const res = await get_videos_by_word(this.word)
+      const res = await get_videos_by_word(this.word, this.accent)
       this.loading = false
       this.loaded = true
       this.videos = res.data
