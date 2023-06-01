@@ -30,6 +30,7 @@
       <template v-if="videos.length && !commercial_playing">
         <template v-for="video in videos">
           <div class="my-2">
+            <p>{{ video.film_name }}</p>
             <video controls style="max-width: 50%;">
               <source :src="get_host + video.sentence" type="video/mp4">
             </video>
