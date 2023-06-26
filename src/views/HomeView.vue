@@ -13,8 +13,8 @@
       @click="search" :disabled="loading_audios || loading_videos">Найти</button>
     </div>
   </div>
-  <Spinner v-if="loading_audios"></Spinner>
-  <template v-if="searched">
+  <Spinner v-if="loading_audios || commercial_playing"></Spinner>
+  <template v-if="searched && !commercial_playing">
     <hr/>
     <template v-if="audios.length">
       <p class="h3 my-3">Произношения</p>
@@ -82,6 +82,7 @@ export default{
       this.videos = []
       this.searched = false
       this.loading_audios = true
+      this.commercial_playing=true
       const res = await get_audios_by_word(this.word, this.accent)
       this.loading_audios = false
       this.audios = res.data
